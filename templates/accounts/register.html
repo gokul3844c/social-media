@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up &bull; SocialSphere{% endblock %}
+
+{% block right_sidebar %}
+<!-- Right sidebar hidden on auth pages -->
+{% endblock %}
+
+{% block content %}
+<div class="auth-page-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo-badge">
+        <img src="{% static 'images/logo.svg' %}" alt="SocialSphere" class="auth-logo-img">
+      </div>
+      <h1 class="auth-title">Join SocialSphere</h1>
+      <p class="auth-subtitle">Sign up to see photos, reels, and stories from people who inspire you.</p>
+    </div>
+
+    <form method="POST" action="{% url 'register' %}" class="auth-form" novalidate id="register-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="auth-errors">
+        {% for error in form.non_field_errors %}
+          <p class="error-msg">{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+        <div class="input-with-icon">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          {{ form.username }}
+        </div>
+        {% if form.username.errors %}
+          <span class="field-error">{{ form.username.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+        <div class="input-with-icon">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
+          {{ form.email }}
+        </div>
+        {% if form.email.errors %}
+          <span class="field-error">{{ form.email.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Full Name Field -->
+      <div class="form-group">
+        <label for="{{ form.full_name.id_for_label }}" class="form-label">Full Name</label>
+        <div class="input-with-icon">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          {{ form.full_name }}
+        </div>
+        {% if form.full_name.errors %}
+          <span class="field-error">{{ form.full_name.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+        <div class="input-with-icon">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          {{ form.password }}
+          <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility" data-target="{{ form.password.id_for_label }}" tabindex="-1">
+            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 0 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        {% if form.password.errors %}
+          <span class="field-error">{{ form.password.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-group">
+        <label for="{{ form.password_confirm.id_for_label }}" class="form-label">Confirm Password</label>
+        <div class="input-with-icon">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+          {{ form.password_confirm }}
+          <button type="button" class="password-toggle-btn" aria-label="Toggle confirm password visibility" data-target="{{ form.password_confirm.id_for_label }}" tabindex="-1">
+            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 0 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        {% if form.password_confirm.errors %}
+          <span class="field-error">{{ form.password_confirm.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <p class="auth-terms-note">
+        By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Community Guidelines</a>.
+      </p>
+
+      <button type="submit" class="btn btn-gradient btn-block btn-lg" id="register-submit-btn">
+        Create Account
+      </button>
+    </form>
+
+    <div class="auth-divider">
+      <span>OR</span>
+    </div>
+
+    <div class="auth-switch-box">
+      <p>Already have an account? <a href="{% url 'login' %}" class="accent-link">Sign in</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

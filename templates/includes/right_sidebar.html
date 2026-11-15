@@ -1,0 +1,76 @@
+{% load static %}
+<aside class="sidebar-right" aria-label="Suggested Users and Feed Sidebar">
+  <div class="sidebar-right-inner">
+    
+    {% if user.is_authenticated %}
+    <!-- Active User Card -->
+    <div class="current-user-card">
+      <a href="{% url 'profile' user.username %}" class="current-user-link">
+        <div class="avatar-ring-container ring-sm">
+          <img src="{{ user.profile.avatar_url }}" alt="{{ user.username }}" class="avatar-img-round">
+        </div>
+        <div class="current-user-details">
+          <span class="cu-username">@{{ user.username }}</span>
+          <span class="cu-fullname">{{ user.profile.display_name }}</span>
+        </div>
+      </a>
+      <a href="{% url 'profile_edit' %}" class="btn-text-link">Edit</a>
+    </div>
+    {% endif %}
+
+    <!-- Suggested Users Section -->
+    <div class="suggestions-container">
+      <div class="suggestions-header">
+        <span class="suggestions-title">Suggested for you</span>
+        <a href="{% url 'search' %}" class="see-all-link">See All</a>
+      </div>
+
+      <div class="suggestions-list">
+        {% if suggested_users %}
+          {% for su in suggested_users %}
+          <div class="suggested-user-item">
+            <a href="{% url 'profile' su.username %}" class="su-link">
+              <div class="avatar-ring-container ring-xs">
+                <img src="{{ su.profile.avatar_url }}" alt="{{ su.username }}" class="avatar-img-round">
+              </div>
+              <div class="su-meta">
+                <span class="su-username">@{{ su.username }}</span>
+                <span class="su-subtext">
+                  {% if su.profile.location %}{{ su.profile.location }}{% else %}Popular on Sphere{% endif %}
+                </span>
+              </div>
+            </a>
+            {% if user.is_authenticated %}
+            <form action="{% url 'follow_toggle' su.username %}" method="POST" class="inline-follow-form" data-username="{{ su.username }}">
+              {% csrf_token %}
+              <button type="submit" class="btn-follow-toggle">Follow</button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn-follow-toggle">Follow</a>
+            {% endif %}
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-suggestions-hint">
+            <p>Connect with creators and friends across the sphere!</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Right Sidebar Footer -->
+    <footer class="sidebar-footer">
+      <nav class="footer-links" aria-label="SocialSphere Information Links">
+        <a href="#">About</a> &bull;
+        <a href="#">Help</a> &bull;
+        <a href="#">Privacy</a> &bull;
+        <a href="#">Terms</a> &bull;
+        <a href="#">API</a>
+      </nav>
+      <div class="footer-copyright">
+        &copy; 2026 SocialSphere from Open Web
+      </div>
+    </footer>
+
+  </div>
+</aside>

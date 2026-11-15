@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile &bull; SocialSphere{% endblock %}
+
+{% block right_sidebar %}{% endblock %}
+
+{% block content %}
+<div class="auth-page-wrapper">
+  <div class="auth-card edit-profile-card">
+    <div class="auth-header">
+      <div class="avatar-edit-wrapper">
+        <img src="{{ profile.avatar_url }}" alt="{{ user.username }}" class="profile-avatar-img avatar-edit-preview" id="avatar-preview-element">
+      </div>
+      <h1 class="auth-title">Edit Profile</h1>
+      <p class="auth-subtitle">Update your personal sphere details and profile photo</p>
+    </div>
+
+    <form method="POST" action="{% url 'profile_edit' %}" enctype="multipart/form-data" class="auth-form" id="edit-profile-form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="auth-errors">
+        {% for error in form.non_field_errors %}
+          <p class="error-msg">{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Profile Picture Field -->
+      <div class="form-group">
+        <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture</label>
+        <div class="file-input-wrapper">
+          {{ form.profile_picture }}
+        </div>
+        <span class="field-help-text">Recommended: JPG, PNG, WEBP, or GIF. Max 5MB.</span>
+        {% if form.profile_picture.errors %}
+          <span class="field-error">{{ form.profile_picture.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Full Name Field -->
+      <div class="form-group">
+        <label for="{{ form.full_name.id_for_label }}" class="form-label">Full Name</label>
+        <div class="input-with-icon">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          {{ form.full_name }}
+        </div>
+        {% if form.full_name.errors %}
+          <span class="field-error">{{ form.full_name.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <!-- Biography Field -->
+      <div class="form-group">
+        <div class="label-row">
+          <label for="{{ form.bio.id_for_label }}" class="form-label">Biography</label>
+          <span class="char-counter" id="bio-char-count">0 / 350</span>
+        </div>
+        {{ form.bio }}
+        {% if form.bio.errors %}
+          <span class="field-error">{{ form.bio.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form-actions-row">
+        <a href="{% url 'current_profile' %}" class="btn btn-secondary flex-1">Cancel</a>
+        <button type="submit" class="btn btn-gradient flex-1" id="save-profile-btn">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
